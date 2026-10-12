@@ -6,8 +6,8 @@ import sys
 
 def main():
     if len(sys.argv) < 2:
-        print("Usage: oberesizer <image_path> [--resize <width> <height>] [--grayscale]")
-        print("Usage: python oberesizer <image_path> [--resize <width> <height>] [--grayscale]")
+        print("Usage: oberesizer <image_path> [--resize <width> <height>] [--grayscale] --output <output_path>")
+        print("Usage (via Python) (script): python oberesizer <image_path> [--resize <width> <height>] [--grayscale] --output <output_path>")
         sys.exit(1)
 
     image_path = sys.argv[1]
@@ -41,6 +41,16 @@ def main():
         # Display the original and grayscale images
         cv2.imshow('Original Image', image)
         cv2.imshow('Grayscale Image', gray_image)
+
+    # Save the processed image if an output path is specified
+    if '--output' in sys.argv:
+        try:
+            output_index = sys.argv.index('--output')
+            output_path = sys.argv[output_index + 1]
+            cv2.imwrite(output_path, gray_image if '--grayscale' in sys.argv else image)
+        except IndexError:
+            print("Error: Invalid output path. Usage: --output <output_path>")
+            sys.exit(1)
 
     # Wait for a key press and close the windows
     cv2.waitKey(0)
