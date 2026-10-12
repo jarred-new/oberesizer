@@ -8,7 +8,7 @@ on:
     branches:
       - main
 
-workflow_dispatch:
+  workflow_dispatch:
 
 jobs:
   build:
@@ -21,8 +21,8 @@ jobs:
       - name: Setup Python x86
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
-          architecture: 'x86'
+          python-version: "3.11"
+          architecture: "x86"
           cache: pip
 
       - name: Verify Python
