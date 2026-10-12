@@ -1,4 +1,4 @@
-name: Build Linux (x86) with Nuitka
+name: Build Linux (x64) with Nuitka
 
 on:
   push:
@@ -18,11 +18,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Python x86
+      - name: Setup Python x64
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-          architecture: "x86"
+          architecture: "x64"
           cache: pip
 
       - name: Verify Python
@@ -36,6 +36,12 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
+
+      - name: Install Linux build and OpenCV dependencies
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes build-essential patchelf libgl1 libglib2.0-0
 
       - name: Test OpenCV
         shell: bash
@@ -56,7 +62,7 @@ jobs:
 
           mode: standalone
 
-          linux-console-mode: enable
+          linux-console-mode: force
 
           #linux-icon-from-ico: 1000088823.ico
 
