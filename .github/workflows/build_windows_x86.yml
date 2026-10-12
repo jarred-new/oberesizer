@@ -56,7 +56,7 @@ jobs:
 
           mode: standalone
 
-          windows-console-mode: enable
+          windows-console-mode: force
 
           #windows-icon-from-ico: 1000088823.ico
 

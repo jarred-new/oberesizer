@@ -55,3 +55,7 @@ def main():
     # Wait for a key press and close the windows
     cv2.waitKey(0)
     cv2.destroyAllWindows()
+
+
+if __name__ == "__main__":
+    main()
