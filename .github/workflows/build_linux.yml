@@ -86,4 +86,4 @@ jobs:
             build/*.exe
           include-hidden-files: true
           if-no-files-found: error
-          archive: zip
+          archive: true
