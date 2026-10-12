@@ -62,7 +62,7 @@ jobs:
 
           mode: standalone
 
-          linux-console-mode: force
+          #linux-console-mode: force # does not exist
 
           #linux-icon-from-ico: 1000088823.ico
 
