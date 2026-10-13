@@ -19,7 +19,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Python x64
+      - name: Setup Python arm64
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"

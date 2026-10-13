@@ -1,0 +1,87 @@
+name: Build Linux (x64) with Nuitka (Tag Release)
+
+on:
+  push:
+    tags:
+      - '*'
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python x64
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          architecture: "x64"
+          cache: pip
+
+      - name: Verify Python
+        shell: bash
+        run: |
+          python --version
+          python -c "import struct; print('Python:', struct.calcsize('P') * 8, 'bit')"
+
+      - name: Install dependencies
+        shell: bash
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+
+      - name: Install Linux build and OpenCV dependencies
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes build-essential patchelf libgl1 libglib2.0-0
+
+      - name: Test OpenCV
+        shell: bash
+        run: |
+          python -c "import cv2; print('OpenCV:', cv2.__version__)"
+
+      - name: Test NumPy
+        shell: bash
+        run: |
+          python -c "import numpy; print('NumPy:', numpy.__version__)"
+
+      - name: Build with Nuitka
+        uses: Nuitka/Nuitka-Action@main
+        with:
+          nuitka-version: main
+
+          script-name: oberesizer.py
+
+          mode: standalone
+
+          #linux-console-mode: force # does not exist
+
+          #linux-icon-from-ico: 1000088823.ico
+
+          # include-data-files: |
+          #   1000088823.ico=1000088823.ico
+
+          output-dir: build
+
+          assume-yes-for-downloads: true
+
+          jobs: 1
+
+          lto: no
+
+      - name: Archive Linux build
+        shell: bash
+        run: |
+          tar -czvf oberesizer-Linux-${{ github.ref_name }}.tar.gz -C build .
+
+      - name: Upload Linux build to Releases
+        uses: softprops/action-gh-release@v2
+        with:
+          name: oberesizer-Linux-${{ github.ref_name }}
+          path: |
+            oberesizer-Linux-${{ github.ref_name }}.tar.gz
