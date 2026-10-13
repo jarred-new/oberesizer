@@ -11,8 +11,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  build-arm64:
+    # Change this line to use a native ARM64 runner
+    runs-on: ubuntu-24.04-arm  
 
     steps:
       - name: Checkout repository
