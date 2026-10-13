@@ -7,6 +7,9 @@ on:
 
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build-arm64:
     # Change this line to use a native ARM64 runner
@@ -84,5 +87,5 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           name: oberesizer-Linux-arm64-${{ github.ref_name }}
-          path: |
+          files: |
             oberesizer-Linux-arm64-${{ github.ref_name }}.tar.gz
