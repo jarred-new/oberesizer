@@ -7,6 +7,9 @@ on:
 
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: windows-latest
@@ -77,5 +80,5 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           name: oberesizer-Windows-x86-${{ github.ref_name }}
-          path: |
+          files: |
             oberesizer-Windows-x86-${{ github.ref_name }}.tar.gz
